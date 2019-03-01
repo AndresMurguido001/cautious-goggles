@@ -20,6 +20,50 @@ export interface RegisterInputs {
 // Documents
 // ====================================================
 
+export type ChangePasswordVariables = {
+  data: ChangePasswordInputs;
+};
+
+export type ChangePasswordMutation = {
+  __typename?: "Mutation";
+
+  changePassword: Maybe<ChangePasswordChangePassword>;
+};
+
+export type ChangePasswordChangePassword = {
+  __typename?: "User";
+
+  id: string;
+
+  firstname: string;
+
+  lastname: string;
+
+  email: string;
+
+  name: string;
+};
+
+export type ConfirmVariables = {
+  token: string;
+};
+
+export type ConfirmMutation = {
+  __typename?: "Mutation";
+
+  confirmUser: boolean;
+};
+
+export type ForgotPasswordVariables = {
+  email: string;
+};
+
+export type ForgotPasswordMutation = {
+  __typename?: "Mutation";
+
+  forgotPassword: boolean;
+};
+
 export type LoginVariables = {
   email: string;
   password: string;
@@ -43,6 +87,14 @@ export type LoginLogin = {
   email: string;
 
   firstname: string;
+};
+
+export type LogoutVariables = {};
+
+export type LogoutMutation = {
+  __typename?: "Mutation";
+
+  logout: boolean;
 };
 
 export type RegisterVariables = {
@@ -69,6 +121,34 @@ export type RegisterRegister = {
   firstname: string;
 };
 
+export type HelloVariables = {};
+
+export type HelloQuery = {
+  __typename?: "Query";
+
+  hello: string;
+};
+
+export type MeVariables = {};
+
+export type MeQuery = {
+  __typename?: "Query";
+
+  me: Maybe<MeMe>;
+};
+
+export type MeMe = {
+  __typename?: "User";
+
+  id: string;
+
+  firstname: string;
+
+  lastname: string;
+
+  email: string;
+};
+
 import * as ReactApollo from "react-apollo";
 import * as React from "react";
 import gql from "graphql-tag";
@@ -77,6 +157,142 @@ import gql from "graphql-tag";
 // Components
 // ====================================================
 
+export const ChangePasswordDocument = gql`
+  mutation ChangePassword($data: ChangePasswordInputs!) {
+    changePassword(data: $data) {
+      id
+      firstname
+      lastname
+      email
+      name
+    }
+  }
+`;
+export class ChangePasswordComponent extends React.Component<
+  Partial<
+    ReactApollo.MutationProps<ChangePasswordMutation, ChangePasswordVariables>
+  >
+> {
+  render() {
+    return (
+      <ReactApollo.Mutation<ChangePasswordMutation, ChangePasswordVariables>
+        mutation={ChangePasswordDocument}
+        {...(this as any)["props"] as any}
+      />
+    );
+  }
+}
+export type ChangePasswordProps<TChildProps = any> = Partial<
+  ReactApollo.MutateProps<ChangePasswordMutation, ChangePasswordVariables>
+> &
+  TChildProps;
+export type ChangePasswordMutationFn = ReactApollo.MutationFn<
+  ChangePasswordMutation,
+  ChangePasswordVariables
+>;
+export function ChangePasswordHOC<TProps, TChildProps = any>(
+  operationOptions:
+    | ReactApollo.OperationOption<
+        TProps,
+        ChangePasswordMutation,
+        ChangePasswordVariables,
+        ChangePasswordProps<TChildProps>
+      >
+    | undefined
+) {
+  return ReactApollo.graphql<
+    TProps,
+    ChangePasswordMutation,
+    ChangePasswordVariables,
+    ChangePasswordProps<TChildProps>
+  >(ChangePasswordDocument, operationOptions);
+}
+export const ConfirmDocument = gql`
+  mutation Confirm($token: String!) {
+    confirmUser(token: $token)
+  }
+`;
+export class ConfirmComponent extends React.Component<
+  Partial<ReactApollo.MutationProps<ConfirmMutation, ConfirmVariables>>
+> {
+  render() {
+    return (
+      <ReactApollo.Mutation<ConfirmMutation, ConfirmVariables>
+        mutation={ConfirmDocument}
+        {...(this as any)["props"] as any}
+      />
+    );
+  }
+}
+export type ConfirmProps<TChildProps = any> = Partial<
+  ReactApollo.MutateProps<ConfirmMutation, ConfirmVariables>
+> &
+  TChildProps;
+export type ConfirmMutationFn = ReactApollo.MutationFn<
+  ConfirmMutation,
+  ConfirmVariables
+>;
+export function ConfirmHOC<TProps, TChildProps = any>(
+  operationOptions:
+    | ReactApollo.OperationOption<
+        TProps,
+        ConfirmMutation,
+        ConfirmVariables,
+        ConfirmProps<TChildProps>
+      >
+    | undefined
+) {
+  return ReactApollo.graphql<
+    TProps,
+    ConfirmMutation,
+    ConfirmVariables,
+    ConfirmProps<TChildProps>
+  >(ConfirmDocument, operationOptions);
+}
+export const ForgotPasswordDocument = gql`
+  mutation ForgotPassword($email: String!) {
+    forgotPassword(email: $email)
+  }
+`;
+export class ForgotPasswordComponent extends React.Component<
+  Partial<
+    ReactApollo.MutationProps<ForgotPasswordMutation, ForgotPasswordVariables>
+  >
+> {
+  render() {
+    return (
+      <ReactApollo.Mutation<ForgotPasswordMutation, ForgotPasswordVariables>
+        mutation={ForgotPasswordDocument}
+        {...(this as any)["props"] as any}
+      />
+    );
+  }
+}
+export type ForgotPasswordProps<TChildProps = any> = Partial<
+  ReactApollo.MutateProps<ForgotPasswordMutation, ForgotPasswordVariables>
+> &
+  TChildProps;
+export type ForgotPasswordMutationFn = ReactApollo.MutationFn<
+  ForgotPasswordMutation,
+  ForgotPasswordVariables
+>;
+export function ForgotPasswordHOC<TProps, TChildProps = any>(
+  operationOptions:
+    | ReactApollo.OperationOption<
+        TProps,
+        ForgotPasswordMutation,
+        ForgotPasswordVariables,
+        ForgotPasswordProps<TChildProps>
+      >
+    | undefined
+) {
+  return ReactApollo.graphql<
+    TProps,
+    ForgotPasswordMutation,
+    ForgotPasswordVariables,
+    ForgotPasswordProps<TChildProps>
+  >(ForgotPasswordDocument, operationOptions);
+}
 export const LoginDocument = gql`
   mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
@@ -125,6 +341,48 @@ export function LoginHOC<TProps, TChildProps = any>(
     LoginProps<TChildProps>
   >(LoginDocument, operationOptions);
 }
+export const LogoutDocument = gql`
+  mutation Logout {
+    logout
+  }
+`;
+export class LogoutComponent extends React.Component<
+  Partial<ReactApollo.MutationProps<LogoutMutation, LogoutVariables>>
+> {
+  render() {
+    return (
+      <ReactApollo.Mutation<LogoutMutation, LogoutVariables>
+        mutation={LogoutDocument}
+        {...(this as any)["props"] as any}
+      />
+    );
+  }
+}
+export type LogoutProps<TChildProps = any> = Partial<
+  ReactApollo.MutateProps<LogoutMutation, LogoutVariables>
+> &
+  TChildProps;
+export type LogoutMutationFn = ReactApollo.MutationFn<
+  LogoutMutation,
+  LogoutVariables
+>;
+export function LogoutHOC<TProps, TChildProps = any>(
+  operationOptions:
+    | ReactApollo.OperationOption<
+        TProps,
+        LogoutMutation,
+        LogoutVariables,
+        LogoutProps<TChildProps>
+      >
+    | undefined
+) {
+  return ReactApollo.graphql<
+    TProps,
+    LogoutMutation,
+    LogoutVariables,
+    LogoutProps<TChildProps>
+  >(LogoutDocument, operationOptions);
+}
 export const RegisterDocument = gql`
   mutation Register($data: RegisterInputs!) {
     register(data: $data) {
@@ -172,4 +430,85 @@ export function RegisterHOC<TProps, TChildProps = any>(
     RegisterVariables,
     RegisterProps<TChildProps>
   >(RegisterDocument, operationOptions);
+}
+export const HelloDocument = gql`
+  query Hello {
+    hello
+  }
+`;
+export class HelloComponent extends React.Component<
+  Partial<ReactApollo.QueryProps<HelloQuery, HelloVariables>>
+> {
+  render() {
+    return (
+      <ReactApollo.Query<HelloQuery, HelloVariables>
+        query={HelloDocument}
+        {...(this as any)["props"] as any}
+      />
+    );
+  }
+}
+export type HelloProps<TChildProps = any> = Partial<
+  ReactApollo.DataProps<HelloQuery, HelloVariables>
+> &
+  TChildProps;
+export function HelloHOC<TProps, TChildProps = any>(
+  operationOptions:
+    | ReactApollo.OperationOption<
+        TProps,
+        HelloQuery,
+        HelloVariables,
+        HelloProps<TChildProps>
+      >
+    | undefined
+) {
+  return ReactApollo.graphql<
+    TProps,
+    HelloQuery,
+    HelloVariables,
+    HelloProps<TChildProps>
+  >(HelloDocument, operationOptions);
+}
+export const MeDocument = gql`
+  query Me {
+    me {
+      id
+      firstname
+      lastname
+      email
+    }
+  }
+`;
+export class MeComponent extends React.Component<
+  Partial<ReactApollo.QueryProps<MeQuery, MeVariables>>
+> {
+  render() {
+    return (
+      <ReactApollo.Query<MeQuery, MeVariables>
+        query={MeDocument}
+        {...(this as any)["props"] as any}
+      />
+    );
+  }
+}
+export type MeProps<TChildProps = any> = Partial<
+  ReactApollo.DataProps<MeQuery, MeVariables>
+> &
+  TChildProps;
+export function MeHOC<TProps, TChildProps = any>(
+  operationOptions:
+    | ReactApollo.OperationOption<
+        TProps,
+        MeQuery,
+        MeVariables,
+        MeProps<TChildProps>
+      >
+    | undefined
+) {
+  return ReactApollo.graphql<
+    TProps,
+    MeQuery,
+    MeVariables,
+    MeProps<TChildProps>
+  >(MeDocument, operationOptions);
 }
